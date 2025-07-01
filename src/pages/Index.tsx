@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Plus, Clock, Calendar, Move3D, Share2, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -67,8 +66,8 @@ const Index = () => {
         (payload) => {
           console.log('Real-time update received:', payload);
           const updatedPlan = payload.new;
-          setActivities(updatedPlan.activities);
-          setCalculationMode(updatedPlan.calculation_mode);
+          setActivities(updatedPlan.activities as Activity[]);
+          setCalculationMode(updatedPlan.calculation_mode as 'arrival' | 'start');
           setTargetTime(updatedPlan.target_time);
           setSelectedDate(updatedPlan.target_date);
           setPlanTitle(updatedPlan.title);
@@ -95,8 +94,8 @@ const Index = () => {
 
       if (error) throw error;
 
-      setActivities(data.activities);
-      setCalculationMode(data.calculation_mode);
+      setActivities(data.activities as Activity[]);
+      setCalculationMode(data.calculation_mode as 'arrival' | 'start');
       setTargetTime(data.target_time);
       setSelectedDate(data.target_date);
       setPlanTitle(data.title);

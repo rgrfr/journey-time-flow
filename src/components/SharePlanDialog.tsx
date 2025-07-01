@@ -54,7 +54,7 @@ const SharePlanDialog = ({
           .from('shared_timeline_plans')
           .insert({
             title: planTitle,
-            activities: activities,
+            activities: activities as any, // Cast to Json
             calculation_mode: calculationMode,
             target_time: targetTime,
             target_date: targetDate,
@@ -67,17 +67,26 @@ const SharePlanDialog = ({
         planId = data.id;
         onPlanCreated(planId);
       } else {
+        // Get current version first
+        const { data: currentPlan, error: fetchError } = await supabase
+          .from('shared_timeline_plans')
+          .select('version')
+          .eq('id', planId)
+          .single();
+
+        if (fetchError) throw fetchError;
+
         // Update existing shared plan
         const { error } = await supabase
           .from('shared_timeline_plans')
           .update({
             title: planTitle,
-            activities: activities,
+            activities: activities as any, // Cast to Json
             calculation_mode: calculationMode,
             target_time: targetTime,
             target_date: targetDate,
             last_edited_by: editorName || 'Anonymous',
-            version: supabase.from('shared_timeline_plans').select('version').eq('id', planId).single().then(r => (r.data?.version || 0) + 1)
+            version: (currentPlan.version || 0) + 1
           })
           .eq('id', planId);
 
