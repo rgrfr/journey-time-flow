@@ -1,0 +1,89 @@
+
+import { Activity, TimeCalculation } from '@/types/TimeTypes';
+
+interface TimelineViewProps {
+  calculation: TimeCalculation;
+  activities: Activity[];
+  className?: string;
+}
+
+const TimelineView = ({ calculation, activities, className = '' }: TimelineViewProps) => {
+  const colors = [
+    'bg-blue-500',
+    'bg-teal-500', 
+    'bg-indigo-500',
+    'bg-purple-500',
+    'bg-pink-500',
+    'bg-green-500',
+    'bg-orange-500',
+    'bg-red-500'
+  ];
+
+  return (
+    <div className={`bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-lg ${className}`}>
+      <div className="space-y-4">
+        {/* Horizontal Timeline Summary */}
+        <div className="relative">
+          <div className="flex items-center justify-between text-sm font-semibold text-slate-700 mb-2">
+            <span>{calculation.startTime}</span>
+            <span>{calculation.endTime}</span>
+          </div>
+          
+          <div className="relative h-3 bg-slate-200 rounded-full overflow-hidden">
+            {calculation.activities.map((activity, index) => {
+              const activityDuration = activity.duration + activity.waitTime;
+              const widthPercent = (activityDuration / calculation.totalDuration) * 100;
+              
+              return (
+                <div
+                  key={activity.id}
+                  className={`absolute h-full ${colors[index % colors.length]} opacity-80`}
+                  style={{
+                    left: `${calculation.activities
+                      .slice(0, index)
+                      .reduce((acc, a) => acc + ((a.duration + a.waitTime) / calculation.totalDuration) * 100, 0)}%`,
+                    width: `${widthPercent}%`
+                  }}
+                />
+              );
+            })}
+          </div>
+          
+          {/* Activity markers */}
+          <div className="flex justify-between mt-2">
+            {calculation.activities.map((activity, index) => (
+              <div
+                key={activity.id}
+                className={`w-3 h-3 rounded-full ${colors[index % colors.length]} border-2 border-white shadow-sm`}
+                style={{
+                  position: 'absolute',
+                  left: `${calculation.activities
+                    .slice(0, index + 1)
+                    .reduce((acc, a) => acc + ((a.duration + a.waitTime) / calculation.totalDuration) * 100, 0) - 1.5}%`,
+                  top: '1rem'
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Vertical Timeline Detail */}
+        <div className="space-y-3 mt-6">
+          {calculation.activities.map((activity, index) => (
+            <div key={activity.id} className="flex items-center gap-3">
+              <div className={`w-4 h-4 rounded-full ${colors[index % colors.length]} flex-shrink-0`} />
+              <div className="flex-1">
+                <div className="font-medium text-slate-800">{activity.title}</div>
+                <div className="text-sm text-slate-600">
+                  {activity.startTime} → {activity.endTime}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TimelineView;
