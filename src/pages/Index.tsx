@@ -66,7 +66,7 @@ const Index = () => {
         (payload) => {
           console.log('Real-time update received:', payload);
           const updatedPlan = payload.new;
-          setActivities(updatedPlan.activities as Activity[]);
+          setActivities(updatedPlan.activities as unknown as Activity[]);
           setCalculationMode(updatedPlan.calculation_mode as 'arrival' | 'start');
           setTargetTime(updatedPlan.target_time);
           setSelectedDate(updatedPlan.target_date);
@@ -94,7 +94,7 @@ const Index = () => {
 
       if (error) throw error;
 
-      setActivities(data.activities as Activity[]);
+      setActivities(data.activities as unknown as Activity[]);
       setCalculationMode(data.calculation_mode as 'arrival' | 'start');
       setTargetTime(data.target_time);
       setSelectedDate(data.target_date);
