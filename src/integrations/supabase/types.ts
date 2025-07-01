@@ -163,6 +163,48 @@ export type Database = {
         }
         Relationships: []
       }
+      shared_timeline_plans: {
+        Row: {
+          activities: Json
+          calculation_mode: string
+          created_at: string
+          id: string
+          last_edited_at: string
+          last_edited_by: string | null
+          target_date: string
+          target_time: string
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          activities: Json
+          calculation_mode: string
+          created_at?: string
+          id?: string
+          last_edited_at?: string
+          last_edited_by?: string | null
+          target_date: string
+          target_time: string
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          activities?: Json
+          calculation_mode?: string
+          created_at?: string
+          id?: string
+          last_edited_at?: string
+          last_edited_by?: string | null
+          target_date?: string
+          target_time?: string
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
       slideshow_configs: {
         Row: {
           config: Json

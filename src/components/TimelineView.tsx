@@ -20,16 +20,16 @@ const TimelineView = ({ calculation, activities, className = '' }: TimelineViewP
   ];
 
   return (
-    <div className={`bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-lg ${className}`}>
-      <div className="space-y-4">
+    <div className={`bg-white/80 backdrop-blur-sm rounded-lg p-3 shadow-lg ${className}`}>
+      <div className="space-y-3">
         {/* Horizontal Timeline Summary */}
         <div className="relative">
-          <div className="flex items-center justify-between text-sm font-semibold text-slate-700 mb-2">
+          <div className="flex items-center justify-between text-xs font-semibold text-slate-700 mb-2">
             <span>{calculation.startTime}</span>
             <span>{calculation.endTime}</span>
           </div>
           
-          <div className="relative h-3 bg-slate-200 rounded-full overflow-hidden">
+          <div className="relative h-2 bg-slate-200 rounded-full overflow-hidden">
             {calculation.activities.map((activity, index) => {
               const activityDuration = activity.duration + activity.waitTime;
               const widthPercent = (activityDuration / calculation.totalDuration) * 100;
@@ -50,31 +50,31 @@ const TimelineView = ({ calculation, activities, className = '' }: TimelineViewP
           </div>
           
           {/* Activity markers */}
-          <div className="flex justify-between mt-2">
+          <div className="flex justify-between mt-1">
             {calculation.activities.map((activity, index) => (
               <div
                 key={activity.id}
-                className={`w-3 h-3 rounded-full ${colors[index % colors.length]} border-2 border-white shadow-sm`}
+                className={`w-2 h-2 rounded-full ${colors[index % colors.length]} border border-white shadow-sm`}
                 style={{
                   position: 'absolute',
                   left: `${calculation.activities
                     .slice(0, index + 1)
-                    .reduce((acc, a) => acc + ((a.duration + a.waitTime) / calculation.totalDuration) * 100, 0) - 1.5}%`,
-                  top: '1rem'
+                    .reduce((acc, a) => acc + ((a.duration + a.waitTime) / calculation.totalDuration) * 100, 0) - 1}%`,
+                  top: '0.75rem'
                 }}
               />
             ))}
           </div>
         </div>
 
-        {/* Vertical Timeline Detail */}
-        <div className="space-y-3 mt-6">
+        {/* Vertical Timeline Detail - Compact */}
+        <div className="space-y-2 mt-4">
           {calculation.activities.map((activity, index) => (
-            <div key={activity.id} className="flex items-center gap-3">
-              <div className={`w-4 h-4 rounded-full ${colors[index % colors.length]} flex-shrink-0`} />
-              <div className="flex-1">
-                <div className="font-medium text-slate-800">{activity.title}</div>
-                <div className="text-sm text-slate-600">
+            <div key={activity.id} className="flex items-center gap-2">
+              <div className={`w-3 h-3 rounded-full ${colors[index % colors.length]} flex-shrink-0`} />
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-slate-800 text-sm truncate">{activity.title}</div>
+                <div className="text-xs text-slate-600">
                   {activity.startTime} → {activity.endTime}
                 </div>
               </div>
