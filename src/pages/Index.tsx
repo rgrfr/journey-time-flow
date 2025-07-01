@@ -38,6 +38,7 @@ const Index = () => {
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   const [currentPlanId, setCurrentPlanId] = useState<string | null>(null);
   const [planTitle, setPlanTitle] = useState('My Timeline Plan');
+  const [lastEditTime, setLastEditTime] = useState<string | null>(null);
   const { toast } = useToast();
 
   // Check for shared plan ID in URL
@@ -71,6 +72,7 @@ const Index = () => {
           setTargetTime(updatedPlan.target_time);
           setSelectedDate(updatedPlan.target_date);
           setPlanTitle(updatedPlan.title);
+          setLastEditTime(updatedPlan.last_edited_at);
           toast({
             title: "Plan updated",
             description: `Updated by ${updatedPlan.last_edited_by}`,
@@ -100,6 +102,7 @@ const Index = () => {
       setSelectedDate(data.target_date);
       setPlanTitle(data.title);
       setCurrentPlanId(planId);
+      setLastEditTime(data.last_edited_at);
       
       toast({
         title: "Shared plan loaded",
@@ -168,6 +171,19 @@ const Index = () => {
     reorderActivities(id, newIndex);
   };
 
+  const formatLastEditTime = (timestamp: string) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString('en-GB', {
+      weekday: 'short',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="container mx-auto px-3 py-4 max-w-lg">
@@ -178,6 +194,11 @@ const Index = () => {
           <p className="text-sm text-slate-600">
             plan your journey backward or forward
           </p>
+          {lastEditTime && (
+            <p className="text-xs text-slate-500 mt-1">
+              last edit {formatLastEditTime(lastEditTime)}
+            </p>
+          )}
         </div>
 
         {/* Mode Selection - Compact Layout */}

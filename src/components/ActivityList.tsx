@@ -132,32 +132,32 @@ const ActivityList = ({
                 </div>
               )}
 
-              {/* Duration Controls - Horizontal Layout */}
-              <div className="flex items-center gap-3 pl-6">
-                <div className="flex items-center gap-1 flex-1">
-                  <Clock className="w-3 h-3 text-slate-500" />
-                  <span className="text-xs text-slate-600 w-10">duration</span>
+              {/* Duration Controls - Updated with better spacing and wider inputs */}
+              <div className="flex items-center gap-4 pl-6">
+                <div className="flex items-center gap-2 flex-1">
+                  <Clock className="w-3 h-3 text-slate-500 flex-shrink-0" />
+                  <span className="text-xs text-slate-600 w-12 flex-shrink-0">duration</span>
                   <Input
                     type="number"
                     value={activity.duration}
                     onChange={(e) => onUpdateActivity(activity.id, { duration: parseInt(e.target.value) || 0 })}
-                    className="text-xs h-6 w-12 text-center"
+                    className="text-xs h-6 w-16 text-center"
                     min="1"
                   />
-                  <span className="text-xs text-slate-500">min</span>
+                  <span className="text-xs text-slate-500 flex-shrink-0">min</span>
                 </div>
 
-                <div className="flex items-center gap-1 flex-1">
-                  <Timer className="w-3 h-3 text-slate-500" />
-                  <span className="text-xs text-slate-600 w-8">wait</span>
+                <div className="flex items-center gap-2 flex-1">
+                  <Timer className="w-3 h-3 text-slate-500 flex-shrink-0" />
+                  <span className="text-xs text-slate-600 w-8 flex-shrink-0">wait</span>
                   <Input
                     type="number"
                     value={activity.waitTime}
                     onChange={(e) => onUpdateActivity(activity.id, { waitTime: parseInt(e.target.value) || 0 })}
-                    className="text-xs h-6 w-12 text-center"
+                    className="text-xs h-6 w-16 text-center"
                     min="0"
                   />
-                  <span className="text-xs text-slate-500">min</span>
+                  <span className="text-xs text-slate-500 flex-shrink-0">min</span>
                 </div>
               </div>
 

@@ -19,9 +19,18 @@ const CalendarButtons = ({ calculation, activities, selectedDate, className = ''
     const startDateTime = `${selectedDate}T${calculation.startTime}:00`;
     const endDateTime = `${selectedDate}T${calculation.endTime}:00`;
     
-    const description = activities.map((activity, index) => 
+    // Get current plan ID from URL if it exists
+    const urlParams = new URLSearchParams(window.location.search);
+    const planId = urlParams.get('plan');
+    const shareLink = planId ? `${window.location.origin}?plan=${planId}` : '';
+    
+    const activitiesText = activities.map((activity, index) => 
       `${index + 1}. ${activity.title} (${activity.duration}min${activity.waitTime > 0 ? ` + ${activity.waitTime}min wait` : ''})`
-    ).join('\\n');
+    ).join('\n');
+    
+    const description = shareLink 
+      ? `${activitiesText}\n\nView/Edit Plan: ${shareLink}`
+      : activitiesText;
 
     return { title, startDateTime, endDateTime, description };
   };
@@ -55,7 +64,7 @@ DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z
 DTSTART:${startDate}
 DTEND:${endDate}
 SUMMARY:${event.title}
-DESCRIPTION:${event.description.replace(/\\n/g, '\n')}
+DESCRIPTION:${event.description}
 END:VEVENT
 END:VCALENDAR`;
 
