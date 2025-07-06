@@ -1,4 +1,5 @@
 
+
 import { useState } from 'react';
 import { Copy, Share2, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -127,12 +128,12 @@ const SharePlanDialog = ({
         <div className="space-y-4">
           {!shareUrl ? (
             <>
-              <div className="bg-blue-50 p-3 rounded-lg space-y-2">
-                <div className="flex items-center gap-2 text-blue-700">
+              <div className="bg-orange-50 p-3 rounded-lg space-y-2">
+                <div className="flex items-center gap-2 text-orange-700">
                   <Clock className="w-4 h-4" />
                   <span className="font-medium text-sm">Real-time Collaboration</span>
                 </div>
-                <p className="text-xs text-blue-600">
+                <p className="text-xs text-orange-600">
                   Changes are instantly synced across all users viewing this link
                 </p>
               </div>
@@ -140,7 +141,7 @@ const SharePlanDialog = ({
               <Button 
                 onClick={createShareableLink}
                 disabled={isCreating}
-                className="w-full bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700"
+                className="w-full bg-gradient-to-r from-orange-500 to-green-600 hover:from-orange-600 hover:to-green-700"
               >
                 {isCreating ? 'Creating new link...' : 'Create new shareable link'}
               </Button>
@@ -183,3 +184,4 @@ const SharePlanDialog = ({
 };
 
 export default SharePlanDialog;
+

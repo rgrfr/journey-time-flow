@@ -1,4 +1,5 @@
 
+
 import { Calendar, Download, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -26,7 +27,7 @@ const CalendarButtons = ({ calculation, activities, selectedDate, className = ''
     
     const activitiesText = activities.map((activity, index) => 
       `${index + 1}. ${activity.title} (${activity.duration}min${activity.waitTime > 0 ? ` + ${activity.waitTime}min wait` : ''})`
-    ).join('\n');
+    ).join('\n\n');
     
     const description = shareLink 
       ? `${activitiesText}\n\nView/Edit Plan: ${shareLink}`
@@ -90,7 +91,7 @@ END:VCALENDAR`;
             variant="outline"
             size="sm"
             onClick={handleGoogleCalendar}
-            className="text-xs hover:bg-blue-50 hover:border-blue-200"
+            className="text-xs hover:bg-orange-50 hover:border-orange-200"
           >
             <ExternalLink className="w-3 h-3 mr-1" />
             Google
@@ -100,7 +101,7 @@ END:VCALENDAR`;
             variant="outline"
             size="sm"
             onClick={handleOutlook}
-            className="text-xs hover:bg-blue-50 hover:border-blue-200"
+            className="text-xs hover:bg-green-50 hover:border-green-200"
           >
             <ExternalLink className="w-3 h-3 mr-1" />
             Outlook
@@ -110,7 +111,7 @@ END:VCALENDAR`;
             variant="outline"
             size="sm"
             onClick={handleICS}
-            className="text-xs hover:bg-blue-50 hover:border-blue-200"
+            className="text-xs hover:bg-amber-50 hover:border-amber-200"
           >
             <Download className="w-3 h-3 mr-1" />
             iCal
@@ -122,3 +123,4 @@ END:VCALENDAR`;
 };
 
 export default CalendarButtons;
+

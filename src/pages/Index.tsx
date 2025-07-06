@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Plus, Clock, Calendar, Move3D, Share2, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -185,7 +186,7 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-green-50">
       <div className="container mx-auto px-3 py-4 max-w-lg">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-slate-800 mb-1">
@@ -208,7 +209,7 @@ const Index = () => {
               <Button
                 variant={calculationMode === 'arrival' ? 'default' : 'outline'}
                 onClick={() => setCalculationMode('arrival')}
-                className="flex-1 text-sm bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700"
+                className="flex-1 text-sm bg-gradient-to-r from-orange-500 to-green-600 hover:from-orange-600 hover:to-green-700"
               >
                 <Clock className="w-3 h-3 mr-1" />
                 set arrival time
@@ -216,7 +217,7 @@ const Index = () => {
               <Button
                 variant={calculationMode === 'start' ? 'default' : 'outline'}
                 onClick={() => setCalculationMode('start')}
-                className="flex-1 text-sm bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700"
+                className="flex-1 text-sm bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600"
               >
                 <Move3D className="w-3 h-3 mr-1" />
                 set start time
@@ -256,7 +257,7 @@ const Index = () => {
 
         {/* Calculated Result */}
         {calculation && (
-          <Card className="p-3 mb-4 bg-gradient-to-r from-blue-600 to-teal-600 text-white border-0 shadow-lg">
+          <Card className="p-3 mb-4 bg-gradient-to-r from-orange-500 to-green-600 text-white border-0 shadow-lg">
             <div className="text-center">
               <div className="text-xs opacity-90 mb-1">
                 calculated {calculationMode === 'arrival' ? 'start time' : 'arrival time'}
@@ -292,7 +293,7 @@ const Index = () => {
             <Button
               onClick={addActivity}
               size="sm"
-              className="bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700"
+              className="bg-gradient-to-r from-orange-500 to-green-600 hover:from-orange-600 hover:to-green-700"
             >
               <Plus className="w-3 h-3 mr-1" />
               add
@@ -312,7 +313,7 @@ const Index = () => {
         {/* Share Button */}
         <Card className="p-4 bg-white/80 backdrop-blur-sm border-0 shadow-lg">
           <Button 
-            className="w-full bg-gradient-to-r from-teal-600 to-blue-600 hover:from-teal-700 hover:to-blue-700"
+            className="w-full bg-gradient-to-r from-green-600 to-orange-500 hover:from-green-700 hover:to-orange-600"
             onClick={() => setShareDialogOpen(true)}
           >
             <Share2 className="w-4 h-4 mr-2" />
