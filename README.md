@@ -1,28 +1,27 @@
-# Welcome to your Lovable project
 
-## Project info
+ <h1 align="center"> The fowards or backwards time planner</h1>
 
-**URL**: https://lovable.dev/projects/702fecdd-3c29-4c7f-a953-7e695d81da0a
+This app is a one busy day planner / time calculator enabling you to list a number of tasks and set a final time for when you need to finish them. You build up a list of things to do, set how long each task lasts (eg a train journey), add some waiting time (eg trains run every 15 minutes) and the app calculates when you need to start out. Day plans are saved anonymously, a link can be shared and be edited by another person in real time. You can save the task to your diary as well as set a start time to calculate a finish time. 
+Get planning at: https://journey-time-flow.lovable.app/
+<h1 /h1>
+<h1 /h1>
+<h1 /h1>
+<h1 align="center"> This is a Lovable project</h1>
 
-## How can I edit this code?
-
-There are several ways of editing your application.
+## There are several ways of editing your (own) Lovable applications:
 
 **Use Lovable**
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/702fecdd-3c29-4c7f-a953-7e695d81da0a) and start prompting.
+As long as this is yours visit the [Lovable Project] and start prompting. Changes made via Lovable will be committed automatically to your repo.
 
-Changes made via Lovable will be committed automatically to this repo.
+**Use your IDE**
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable. The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 Follow these steps:
+```sh<img width="506" height="253" alt="og-image" src="https://github.com/user-attachments/assets/0a617cd1-f216-4fe8-b08d-50362b0480d4" />
+<img width="506" height="253" alt="og-image" src="https://github.com/user-attachments/assets/8fdfc95c-599c-4cd2-81d6-350ee1d441e7" />
 
-```sh
 # Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
 
@@ -60,14 +59,8 @@ This project is built with:
 - shadcn-ui
 - Tailwind CSS
 
-## How can I deploy this project?
 
-Simply open [Lovable](https://lovable.dev/projects/702fecdd-3c29-4c7f-a953-7e695d81da0a) and click on Share -> Publish.
+## Project info
+ 
+the [Lovable Project](https://lovable.dev/projects/702fecdd-3c29-4c7f-a953-7e695d81da0a) 
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
