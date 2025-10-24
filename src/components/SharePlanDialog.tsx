@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
 import { Activity } from '@/types/TimeTypes';
-import { supabase } from '@/integrations/supabase/client';
+import { saveTimelinePlan } from '@/lib/timelinePlanApi';
 
 interface SharePlanDialogProps {
   open: boolean;
@@ -47,22 +47,16 @@ const SharePlanDialog = ({
     setIsCreating(true);
     try {
       // Always create new shared plan (never update existing one)
-      const { data, error } = await supabase
-        .from('shared_timeline_plans')
-        .insert({
-          title: planTitle,
-          activities: activities as unknown as any,
-          calculation_mode: calculationMode,
-          target_time: targetTime,
-          target_date: targetDate,
-          last_edited_by: 'Anonymous'
-        })
-        .select()
-        .single();
+      const savedPlan = await saveTimelinePlan({
+        title: planTitle,
+        activities: activities as unknown as any,
+        calculation_mode: calculationMode,
+        target_time: targetTime,
+        target_date: targetDate,
+        last_edited_by: 'Anonymous'
+      });
 
-      if (error) throw error;
-      
-      const planId = data.id;
+      const planId = savedPlan.id;
       onPlanCreated(planId);
 
       const url = `${window.location.origin}?plan=${planId}`;

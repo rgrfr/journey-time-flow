@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Plus, Clock, Calendar, Move3D, Share2, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +12,7 @@ import CalendarButtons from '@/components/CalendarButtons';
 import SharePlanDialog from '@/components/SharePlanDialog';
 import { Activity, TimeCalculation } from '@/types/TimeTypes';
 import { calculateTimes } from '@/utils/timeCalculations';
-import { supabase } from '@/integrations/supabase/client';
+import { getTimelinePlan, saveTimelinePlan } from '@/lib/timelinePlanApi';
 
 const Index = () => {
   const [activities, setActivities] = useState<Activity[]>([
@@ -51,59 +51,56 @@ const Index = () => {
     }
   }, []);
 
-  // Subscribe to real-time updates for shared plans
+  // Poll for updates on shared plans (replaces real-time subscription)
+  const lastVersionRef = useRef<number>(1);
+  
   useEffect(() => {
     if (!currentPlanId) return;
 
-    const channel = supabase
-      .channel('shared-plan-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'shared_timeline_plans',
-          filter: `id=eq.${currentPlanId}`
-        },
-        (payload) => {
-          console.log('Real-time update received:', payload);
-          const updatedPlan = payload.new;
-          setActivities(updatedPlan.activities as unknown as Activity[]);
-          setCalculationMode(updatedPlan.calculation_mode as 'arrival' | 'start');
-          setTargetTime(updatedPlan.target_time);
-          setSelectedDate(updatedPlan.target_date);
-          setPlanTitle(updatedPlan.title);
-          setLastEditTime(updatedPlan.last_edited_at);
+    const pollInterval = setInterval(async () => {
+      try {
+        const plan = await getTimelinePlan(currentPlanId);
+        
+        if (plan && plan.version > lastVersionRef.current) {
+          console.log('Update detected:', plan);
+          lastVersionRef.current = plan.version;
+          setActivities(plan.activities as unknown as Activity[]);
+          setCalculationMode(plan.calculation_mode as 'arrival' | 'start');
+          setTargetTime(plan.target_time);
+          setSelectedDate(plan.target_date);
+          setPlanTitle(plan.title);
+          setLastEditTime(plan.last_edited_at);
           toast({
             title: "Plan updated",
-            description: `Updated by ${updatedPlan.last_edited_by}`,
+            description: `Updated by ${plan.last_edited_by}`,
           });
         }
-      )
-      .subscribe();
+      } catch (error) {
+        console.error('Error polling for updates:', error);
+      }
+    }, 3000); // Poll every 3 seconds
 
     return () => {
-      supabase.removeChannel(channel);
+      clearInterval(pollInterval);
     };
   }, [currentPlanId, toast]);
 
   const loadSharedPlan = async (planId: string) => {
     try {
-      const { data, error } = await supabase
-        .from('shared_timeline_plans')
-        .select('*')
-        .eq('id', planId)
-        .single();
+      const plan = await getTimelinePlan(planId);
 
-      if (error) throw error;
+      if (!plan) {
+        throw new Error('Plan not found');
+      }
 
-      setActivities(data.activities as unknown as Activity[]);
-      setCalculationMode(data.calculation_mode as 'arrival' | 'start');
-      setTargetTime(data.target_time);
-      setSelectedDate(data.target_date);
-      setPlanTitle(data.title);
+      setActivities(plan.activities as unknown as Activity[]);
+      setCalculationMode(plan.calculation_mode as 'arrival' | 'start');
+      setTargetTime(plan.target_time);
+      setSelectedDate(plan.target_date);
+      setPlanTitle(plan.title);
       setCurrentPlanId(planId);
-      setLastEditTime(data.last_edited_at);
+      setLastEditTime(plan.last_edited_at);
+      lastVersionRef.current = plan.version;
       
       toast({
         title: "Shared plan loaded",
