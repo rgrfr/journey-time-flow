@@ -86,11 +86,13 @@ export async function saveTimelinePlan(plan: Partial<TimelinePlan>): Promise<Tim
     
     const result = await response.json();
     
-    if (result.data) {
-      return result.data;
+    // The insert API returns {status: "success", message: "..."} without data field
+    // Since we already have the plan object with the ID, return it on success
+    if (result.status === 'success') {
+      return plan as TimelinePlan;
     }
     
-    throw new Error('Invalid response from server');
+    throw new Error(result.message || 'Invalid response from server');
   } catch (error) {
     console.error('Error saving timeline plan:', error);
     throw error;
